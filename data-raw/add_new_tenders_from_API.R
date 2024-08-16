@@ -31,7 +31,7 @@ if(file.exists("data/austender_contracts.rda"))
 
 
 #' Define functions for cleaning data from API
-#' `get_`
+#' `get_tenders_json`
 #' `get_suppliers`
 #'
 #'
@@ -209,8 +209,8 @@ get_tenders_json <- function(start_date, end_date) {
 
 }
 
-# Run this line of code to add tenders for a specifiec date range
-results <- get_tenders_json("2024-06-1", "2024-06-11")
+# Run this line of code to add tenders for a specific date range
+results <- get_tenders_json("2024-01-1", "2024-05-31")
 
 # Add suppliers from query to existing data
 austender_suppliers =

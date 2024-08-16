@@ -1,11 +1,15 @@
 Package: austendeR
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Provides easily useable data from the Austenders API
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: 
+ person("Samuel", "Gow", , "samuel.gow@cubegroup.com.au", role = c("aut", "cre"))
+Description: 
+    austendeR contains three datasets in .rda format. These data are build from the
+    Austenders API. There is a dataset for suppliers, agencies and contracts. Each
+    contains select fields available via the API for the relevant element of a tender.
+    add_new_tenders_from_API.R contains contains code for adding to the datasets.
+    Version 0.1.0 contains data for the period 1 June 2024 to 16 August 2024.
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
