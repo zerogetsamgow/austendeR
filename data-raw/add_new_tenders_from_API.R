@@ -38,7 +38,7 @@ if(file.exists("data/austender_contracts.rda"))
 #'
 get_suppliers <- function(df) {
   # A function to extract supplier variables from Austender JSON releases extract
-  releases |>
+  df |>
     # Select ocid and parties from releases df
     select(ocid, parties) |>
     # unnest parties variable wider
@@ -73,7 +73,7 @@ get_suppliers <- function(df) {
 
 get_agencies = function(df) {
   # A function to extract agency variables from Austender JSON releases extract
-  releases |>
+  df |>
     # Select ocid and parties from releases df
     select(ocid, parties) |>
     # unnest parties variable wider
@@ -107,7 +107,7 @@ get_agencies = function(df) {
 
 get_contracts = function(df) {
   # A function to extract contract variables from Austender JSON releases extract
-  test = releases |>
+  df |>
     # Select ocid and contracts from releases df
     select(ocid, contracts) |>
     # unnest contracts variable wider
@@ -130,7 +130,7 @@ get_releases <- function(df) {
   if(length(df$json$releases) > 0) {
 
     # Extract releases from df$json
-    releases <-
+    releases =
       tibble(json = df$json$releases) |>
       unnest_wider(json)
 
@@ -141,7 +141,7 @@ get_releases <- function(df) {
       filter(str_detect(tag,"Amendment"))
 
     # remove amended contracts from releases
-    releases <-
+    releases =
       releases |>
       filter(!ocid %in%  amendments$ocid)
 
@@ -209,7 +209,8 @@ get_tenders_json <- function(start_date, end_date) {
 
 }
 
-results <- get_tenders_json("2024-06-1", "2024-08-16")
+# Run this line of code to add tenders for a specifiec date range
+results <- get_tenders_json("2024-06-1", "2024-06-11")
 
 # Add suppliers from query to existing data
 austender_suppliers =
@@ -223,7 +224,7 @@ austender_suppliers =
 # Replace rda in data with updated set created from above
 usethis::use_data(austender_suppliers, overwrite = TRUE)
 
-# Add agenciess from query to existing data
+# Add agencies from query to existing data
 austender_agencies =
   bind_rows(
     austender_agencies,
