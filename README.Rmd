@@ -5,6 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
+library(tidyverse)
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -18,45 +19,72 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of austendeR is to make data available from the Austenders API - https://github.com/austender/austender-ocds-api - 
+The goal of austendeR is to make data available from the Austenders API - https://github.com/austender/austender-ocds-api - for users of R without them needing to wrangle with JSON.
+
+AusTender is the Australian Government procurement information system. The API provides AusTender contract notice data on demand in a standard machine-readable format, but that format is JSON (urk!).
+
+This package presents the results from the API reformatted as three .rda files. The package is in the developmental phase. Data is being collated progressively. Please refer to the `DESCRIPTION` for the current coverage. 
+
+Data contained in this package does not currently include all fields avaialable via the API.
 
 ## Installation
 
 You can install the development version of austendeR like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("devtools")
+devtools::install_github("zerogetsamgow/austendeR")
 ```
 
-## Example
+## Data
 
-austenderR contains three datasets
+austenderR contains three datasets. 
 
-`austender_suppliers`
+`austender_suppliers` - containing information on the party providing the services under the contract.
 
-`austender_agencies`
-
-`austender_contracts`
-
-
-
-```{r example}
+```{r suppliers}
 library(austendeR)
-## basic example code
+## example of data in austender_suppliers
+
+knitr::kable(
+  sample_n(austendeR::austender_suppliers, size = 1) |> 
+    pivot_longer(everything()))
+
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+`austender_agencies` - containing information on the party receiving/paying for the services under the contract. A random example is shown below.
+
+```{r agencie}
+library(austendeR)
+
+## example of data in austender_suppliers
+
+knitr::kable(
+  sample_n(austendeR::austender_agencies, size = 1) |> 
+    pivot_longer(everything()))
+
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+`austender_contracts` - containing information about the contract. A random example is shown below. A random example is shown below.
 
-You can also embed plots, for example:
+```{r contracts}
+library(austendeR)
+## example of data in austender_suppliers
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+knitr::kable(
+  sample_n(austendeR::austender_contracts, size = 1) |> 
+    pivot_longer(everything()))
+
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+As can be seen in these examples, all three tables contain a variable `ocid` that enables information from all three to be joined.
+
+## How and when is data updated
+
+Data is added to the package using the `add_new_tenders_from_API.r` fundtion in `data-raw`. 
+
+Historical data will be added semi-regularly. Once a full history is compiled, data will be added monthly thereon.
+
+
+

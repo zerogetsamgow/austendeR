@@ -210,7 +210,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2024-01-1", "2024-05-31")
+results <- get_tenders_json("2023-07-1", "2024-06-30")
 
 # Add suppliers from query to existing data
 austender_suppliers =
