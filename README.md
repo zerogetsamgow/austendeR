@@ -49,15 +49,15 @@ knitr::kable(
 
 | name                | value                                 |
 |:--------------------|:--------------------------------------|
-| ocid                | prod-b189497ae0d14554aaa158a6b11a2c0b |
-| supplier_id         | abc563a9bd67af7a4692516689194410      |
-| supplier_abn        | 80003074468                           |
-| supplier_name       | ORACLE CORPORATION AUSTRALIA PTY LTD  |
+| ocid                | prod-b35c11ec025d4e41ad76fa8bfa3e5535 |
+| supplier_id         | bbd12d2dd6c330989e5ba5428bbe40fd      |
+| supplier_abn        | 47000067541                           |
+| supplier_name       | Chubb Fire & Security Pty Ltd         |
 | supplier_country    | AUSTRALIA                             |
-| supplier_street     |                                       |
-| supplier_locality   | NORTH RYDE                            |
+| supplier_street     | NA                                    |
+| supplier_locality   | Sydney                                |
 | supplier_region     | NSW                                   |
-| supplier_postalCode | 2113                                  |
+| supplier_postalCode | 2116                                  |
 
 `austender_agencies` - containing information on the party
 receiving/paying for the services under the contract. A random example
@@ -75,13 +75,15 @@ knitr::kable(
 
 | name        | value                                 |
 |:------------|:--------------------------------------|
-| ocid        | prod-0e2e8518ac4f457db8aa66d62538b246 |
-| agency_id   | d3284cb3cff6a81557614b93587bd740      |
-| agency_abn  | 41687119230                           |
-| agency_name | CSIRO                                 |
+| ocid        | prod-a18e3a2b2c054d8497768f5c6d60c6df |
+| agency_id   | 0ec9911c9e99d1b7bb1b77f4abffc583      |
+| agency_abn  | 62950639680                           |
+| agency_name | Department of Defence                 |
 
 `austender_contracts` - containing information about the contract. A
-random example is shown below. A random example is shown below.
+random example is shown below. A random example is shown below. Note
+`austenders_contracts` includes contracts and contract amendments. These
+are denoted by the `tag` variable.
 
 ``` r
 library(austendeR)
@@ -92,14 +94,15 @@ knitr::kable(
     pivot_longer(everything()))
 ```
 
-| name                  | value                                 |
-|:----------------------|:--------------------------------------|
-| ocid                  | prod-4e8f31bf4b534d6d9efaab1464d89be3 |
-| contract_description  | Office Furniture                      |
-| contract_value_amount | 537411.60                             |
-| contract_date_signed  | 2024-05-20T21:46:15Z                  |
-| contract_date_start   | 2024-03-27T13:00:00Z                  |
-| contract_date_end     | 2024-12-29T13:00:00Z                  |
+| name                  | value                                        |
+|:----------------------|:---------------------------------------------|
+| ocid                  | prod-9cafe389e7e845488e99265281b663c1        |
+| contract_description  | Provision of printer usage and leasing costs |
+| contract_value_amount | 695283.84                                    |
+| contract_date_signed  | 2022-04-22T04:03:06Z                         |
+| contract_date_start   | 2021-11-29T13:00:00Z                         |
+| contract_date_end     | 2024-02-28T13:00:00Z                         |
+| tag                   | contract                                     |
 
 As can be seen in these examples, all three tables contain a variable
 `ocid` that enables information from all three to be joined.
