@@ -109,15 +109,16 @@ get_contracts = function(df) {
   # A function to extract contract variables from Austender JSON releases extract
   df |>
     # Select ocid and contracts from releases df
-    select(ocid, contracts) |>
+    select(ocid, contracts, tag) |>
     # unnest contracts variable wider
     unnest_longer(contracts) |>
+    unnest_longer(tag) |>
     # unnest the value variable wider again
     unnest_wider(contracts, names_sep = "_") |>
     unnest_wider(contracts_value, names_sep = "_") |>
     unnest_wider(contracts_period, names_sep = "_") |>
     # Now we have our data we can clean the names and select data we want.
-    select(ocid, contains("description"), contains("amount"), contains("date")) |>
+    select(ocid, contains("description"), contains("amount"), contains("date"), tag) |>
     rename_with(\(x) str_replace(x,"contracts","contract")) |>
     rename_with(\(x) str_replace(x,"_period","_date")) |>
     rename_with(\(x) str_replace(x,"S","_s")) |>
@@ -130,35 +131,39 @@ get_releases <- function(df) {
   if(length(df$json$releases) > 0) {
 
     # Extract releases from df$json
-    releases =
+    releases <<-
       tibble(json = df$json$releases) |>
       unnest_wider(json)
 
     # Test for duplicates - contracts that have been amended
-    amendments = releases |>
+    amendments <- releases |>
       select(ocid, tag) |>
       unnest_longer(tag) |>
       filter(str_detect(tag,"Amendment"))
 
-    # remove amended contracts from releases
-    releases =
+    # remove amended contracts from releases to process for supplier and contractor details
+    originals <-
       releases |>
       filter(!ocid %in%  amendments$ocid)
 
-
+    if(length(originals) > 0) {
     # get supplier details
-    suppliers = get_suppliers(releases)
+    suppliers = get_suppliers(originals)
 
     # get agency details
-    agencies = get_agencies(releases)
+    agencies = get_agencies(originals)
+    } else {
+      suppliers = agencies = NULL
+    }
 
-    # get contracts details
+    # get contracts details for all releases
     contracts = get_contracts(releases)
 
     # Return data as a named list
     list(suppliers = suppliers,
          agencies = agencies,
-         contracts = contracts)
+         contracts = contracts
+         )
 
   } else {
     NULL
@@ -210,7 +215,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2023-07-1", "2024-06-30")
+results <- get_tenders_json("2021-07-1", "2021-12-31")
 
 # Add suppliers from query to existing data
 austender_suppliers =
@@ -247,5 +252,4 @@ austender_contracts =
 
 # Replace rda in data with updated set
 usethis::use_data(austender_contracts, overwrite = TRUE)
-
 

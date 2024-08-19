@@ -1,7 +1,7 @@
 Package: austendeR
 Type: Package
 Title: Provides easily useable data from the Austenders API
-Version: 0.1.1
+Version: 0.1.2
 Author: 
  person("Samuel", "Gow", , "samuel.gow@cubegroup.com.au", role = c("aut", "cre"))
 Description: 
@@ -9,8 +9,8 @@ Description:
     Austenders API. There is a dataset for suppliers, agencies and contracts. Each
     contains select fields available via the API for the relevant element of a tender.
     add_new_tenders_from_API.R contains contains code for adding to the datasets.
-    Version 0.1.1 contains data for the period 1 June 2023 to 16 August 2024.
-License: What license is it under?
+    Version 0.1.2 contains data for the period 1 July 2021 to 18 August 2024.
+License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true
 Depends: 

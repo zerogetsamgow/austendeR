@@ -66,7 +66,7 @@ knitr::kable(
 
 ```
 
-`austender_contracts` - containing information about the contract. A random example is shown below. A random example is shown below.
+`austender_contracts` - containing information about the contract. A random example is shown below. A random example is shown below. Note `austenders_contracts` includes contracts and contract amendments. These are denoted by the `tag` variable.
 
 ```{r contracts}
 library(austendeR)
