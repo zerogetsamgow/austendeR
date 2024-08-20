@@ -182,7 +182,6 @@ get_tenders_json <- function(start_date, end_date) {
   get_next_url <- function(df) {
     url_base <- "https://api.tenders.gov.au/ocds/findByDates/contractPublished/"
     url <- str_glue("{url_base}{start_date}T00:00:00Z/{end_date}T23:59:59Z")
-    test.url <<- url
 
     if (is.null(df)) {
       return(url)
