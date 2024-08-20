@@ -38,6 +38,7 @@ if(file.exists("data/austender_contracts.rda"))
 #'
 get_suppliers <- function(df) {
   # A function to extract supplier variables from Austender JSON releases extract
+  test.df <<- df
   df |>
     # Select ocid and parties from releases df
     select(ocid, parties) |>
@@ -117,12 +118,16 @@ get_contracts = function(df) {
     unnest_wider(contracts, names_sep = "_") |>
     unnest_wider(contracts_value, names_sep = "_") |>
     unnest_wider(contracts_period, names_sep = "_") |>
+    unnest_longer(contracts_items) |>
+    unnest_wider(contracts_items, names_sep = "_") |>
+    unnest_wider(contracts_items_classification, names_sep = "_") |>
     # Now we have our data we can clean the names and select data we want.
-    select(ocid, contains("description"), contains("amount"), contains("date"), tag) |>
+    select(ocid, contracts_id, contains("classification_id"), contains("description"), contains("amount"), contains("date"), tag) |>
     rename_with(\(x) str_replace(x,"contracts","contract")) |>
     rename_with(\(x) str_replace(x,"_period","_date")) |>
+    rename_with(\(x) str_replace(x,"classification","unspsc")) |>
     rename_with(\(x) str_replace(x,"S","_s")) |>
-    rename_with(\(x) str_remove(x,"Date"))
+    rename_with(\(x) str_remove(x,"Date|_items"))
 
 }
 
@@ -142,16 +147,16 @@ get_releases <- function(df) {
       filter(str_detect(tag,"Amendment"))
 
     # remove amended contracts from releases to process for supplier and contractor details
-    originals <-
+    originals <<-
       releases |>
       filter(!ocid %in%  amendments$ocid)
+  # if(FALSE) {}
+    if(nrow(originals) > 0) {
+      # get supplier details
+      suppliers = get_suppliers(originals)
 
-    if(length(originals) > 0) {
-    # get supplier details
-    suppliers = get_suppliers(originals)
-
-    # get agency details
-    agencies = get_agencies(originals)
+      # get agency details
+      agencies = get_agencies(originals)
     } else {
       suppliers = agencies = NULL
     }
@@ -177,6 +182,7 @@ get_tenders_json <- function(start_date, end_date) {
   get_next_url <- function(df) {
     url_base <- "https://api.tenders.gov.au/ocds/findByDates/contractPublished/"
     url <- str_glue("{url_base}{start_date}T00:00:00Z/{end_date}T23:59:59Z")
+    test.url <<- url
 
     if (is.null(df)) {
       return(url)
@@ -215,7 +221,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2021-07-1", "2021-12-31")
+results <- get_tenders_json("2017-7-1", "2024-8-20")
 
 # Add suppliers from query to existing data
 austender_suppliers =
