@@ -1,15 +1,16 @@
 Package: austendeR
 Type: Package
 Title: Provides easily useable data from the Austenders API
-Version: 0.1.4
+Version: 0.2.0
 Author: 
  person("Samuel", "Gow", , "samuel.gow@cubegroup.com.au", role = c("aut", "cre"))
 Description: 
-    austendeR contains three datasets in .rda format. These data are build from the
-    Austenders API. There is a dataset for suppliers, agencies and contracts. Each
+    austendeR contains four datasets in .rda format. Three of these datasets are build
+    from the Austenders API. There is a dataset for suppliers, agencies and contracts. Each
     contains select fields available via the API for the relevant element of a tender.
     add_new_tenders_from_API.R contains contains code for adding to the datasets.
-    Version 0.1.4 contains data for the period 1 July 2017 to 18 August 2024.
+    Addtionally there is a dataset with simplied UNSPSC used by Austender.
+    Version 0.2.0 contains data for the period 1 July 2017 to 18 August 2024.
 License: CC BY 4.0
 Encoding: UTF-8
 LazyData: true

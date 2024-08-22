@@ -38,9 +38,9 @@ devtools::install_github("zerogetsamgow/austendeR")
 
 ## Data
 
-austenderR contains three datasets. 
+austenderR contains four datasets. 
 
-`austender_suppliers` - containing information on the party providing the services under the contract.
+`austender_suppliers` - containing information on the party providing the services under the contract. A random example is shown below.
 
 ```{r suppliers}
 library(austendeR)
@@ -55,10 +55,8 @@ knitr::kable(
 
 `austender_agencies` - containing information on the party receiving/paying for the services under the contract. A random example is shown below.
 
-```{r agencie}
-library(austendeR)
-
-## example of data in austender_suppliers
+```{r agencies}
+## example of data in austender_agenceis
 
 knitr::kable(
   sample_n(austendeR::austender_agencies, size = 1) |> 
@@ -66,11 +64,10 @@ knitr::kable(
 
 ```
 
-`austender_contracts` - containing information about the contract. A random example is shown below. A random example is shown below. Note `austenders_contracts` includes contracts and contract amendments. These are denoted by the `tag` variable.
+`austender_contracts` - containing information about the contract. A random example is shown below. Note `austenders_contracts` includes contracts and contract amendments. These are denoted by the `tag` variable.
 
 ```{r contracts}
-library(austendeR)
-## example of data in austender_suppliers
+## example of data in austender_contracts
 
 knitr::kable(
   sample_n(austendeR::austender_contracts, size = 1) |> 
@@ -78,7 +75,20 @@ knitr::kable(
 
 ```
 
-As can be seen in these examples, all three tables contain a variable `ocid` that enables information from all three to be joined.
+
+`austender_unspsc` - containing information about the simplified United Nations Standard Products and Services Code (UNSPSC) used by Austender contract. A random example is shown below.  
+
+
+```{r unspsc}
+## example of data in austender_contracts
+
+knitr::kable(
+  sample_n(austendeR::austender_unspsc, size = 10)
+)
+
+```
+
+As can be seen in these examples, the three main tender tables contain a variable `ocid` that enables information from all three to be joined. `austender_contracts` and `austender_unspsc` can be joined based on fields containing 8-digit UNSPSC codes, thought the names of these are different in each table.
 
 ## How and when is data updated
 

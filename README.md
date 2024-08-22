@@ -33,10 +33,10 @@ devtools::install_github("zerogetsamgow/austendeR")
 
 ## Data
 
-austenderR contains three datasets.
+austenderR contains four datasets.
 
 `austender_suppliers` - containing information on the party providing
-the services under the contract.
+the services under the contract. A random example is shown below.
 
 ``` r
 library(austendeR)
@@ -49,24 +49,22 @@ knitr::kable(
 
 | name                | value                                 |
 |:--------------------|:--------------------------------------|
-| ocid                | prod-b35c11ec025d4e41ad76fa8bfa3e5535 |
-| supplier_id         | bbd12d2dd6c330989e5ba5428bbe40fd      |
-| supplier_abn        | 47000067541                           |
-| supplier_name       | Chubb Fire & Security Pty Ltd         |
+| ocid                | prod-50845751687a4298ae1ea7ad1c586091 |
+| supplier_id         | aba5716994b469bd276bb383b8ce902b      |
+| supplier_abn        | 82001166927                           |
+| supplier_name       | HUBER & SUHNER (AUSTRALIA) PTY LTD    |
 | supplier_country    | AUSTRALIA                             |
-| supplier_street     | NA                                    |
-| supplier_locality   | Sydney                                |
+| supplier_street     |                                       |
+| supplier_locality   | FRENCHS FOREST                        |
 | supplier_region     | NSW                                   |
-| supplier_postalCode | 2116                                  |
+| supplier_postalCode | 2086                                  |
 
 `austender_agencies` - containing information on the party
 receiving/paying for the services under the contract. A random example
 is shown below.
 
 ``` r
-library(austendeR)
-
-## example of data in austender_suppliers
+## example of data in austender_agenceis
 
 knitr::kable(
   sample_n(austendeR::austender_agencies, size = 1) |> 
@@ -75,37 +73,66 @@ knitr::kable(
 
 | name        | value                                 |
 |:------------|:--------------------------------------|
-| ocid        | prod-a18e3a2b2c054d8497768f5c6d60c6df |
-| agency_id   | 0ec9911c9e99d1b7bb1b77f4abffc583      |
-| agency_abn  | 62950639680                           |
-| agency_name | Department of Defence                 |
+| ocid        | prod-ef55edd795964fdba8968ecb34beb8b0 |
+| agency_id   | 0ec8f144aa1c235022aed6c59a7c9e24      |
+| agency_abn  | 17864931143                           |
+| agency_name | Australian Federal Police             |
 
 `austender_contracts` - containing information about the contract. A
-random example is shown below. A random example is shown below. Note
-`austenders_contracts` includes contracts and contract amendments. These
-are denoted by the `tag` variable.
+random example is shown below. Note `austenders_contracts` includes
+contracts and contract amendments. These are denoted by the `tag`
+variable.
 
 ``` r
-library(austendeR)
-## example of data in austender_suppliers
+## example of data in austender_contracts
 
 knitr::kable(
   sample_n(austendeR::austender_contracts, size = 1) |> 
     pivot_longer(everything()))
 ```
 
-| name                  | value                                        |
-|:----------------------|:---------------------------------------------|
-| ocid                  | prod-9cafe389e7e845488e99265281b663c1        |
-| contract_description  | Provision of printer usage and leasing costs |
-| contract_value_amount | 695283.84                                    |
-| contract_date_signed  | 2022-04-22T04:03:06Z                         |
-| contract_date_start   | 2021-11-29T13:00:00Z                         |
-| contract_date_end     | 2024-02-28T13:00:00Z                         |
-| tag                   | contract                                     |
+| name                  | value                                 |
+|:----------------------|:--------------------------------------|
+| ocid                  | prod-feabf048ce0a59a959af9de1fa7c23da |
+| contract_id           | CN3396792                             |
+| contract_unspsc_id    | 46171600                              |
+| contract_description  | Safety products and support services  |
+| contract_value_amount | 391126.08                             |
+| contract_date_signed  | 2017-01-03T13:00:00Z                  |
+| contract_date_start   | 2016-12-15T13:00:00Z                  |
+| contract_date_end     | 2017-05-30T14:00:00Z                  |
+| tag                   | contractAmendment                     |
 
-As can be seen in these examples, all three tables contain a variable
-`ocid` that enables information from all three to be joined.
+`austender_unspsc` - containing information about the simplified United
+Nations Standard Products and Services Code (UNSPSC) used by Austender
+contract. A random example is shown below.
+
+``` r
+## example of data in austender_contracts
+
+knitr::kable(
+  sample_n(austendeR::austender_unspsc, size = 10)
+)
+```
+
+| unspsc_id | unspsc_group                                                                       | unspsc_desc                                    |
+|:----------|:-----------------------------------------------------------------------------------|:-----------------------------------------------|
+| 73180000  | Industrial Production and Manufacturing Services                                   | Machining and processing services              |
+| 30140000  | Structures and Building and Construction and Manufacturing Components and Supplies | Insulation                                     |
+| 92110000  | National Defence and Public Order and Security and Safety Services                 | Military services and national defence         |
+| 42000000  | Laboratory and Measuring and Observing and Testing Equipment                       | Medical Equipment and Accessories and Supplies |
+| 72101900  | Building and Construction and Maintenance Services                                 | Interior finishing                             |
+| 93100000  | Politics and Civic Affairs Services                                                | Political systems and institutions             |
+| 41100000  | Laboratory and Measuring and Observing and Testing Equipment                       | Laboratory and scientific equipment            |
+| 49150000  | Sports and Recreational Equipment and Supplies and Accessories                     | Winter sports equipment                        |
+| 25131900  | Commercial and Military and Private Vehicles and their Accessories and Components  | Military rotary wing aircraft                  |
+| 46181700  | Defence and Law Enforcement and Security and Safety Equipment and Supplies         | Face and head protection                       |
+
+As can be seen in these examples, the three main tender tables contain a
+variable `ocid` that enables information from all three to be joined.
+`austender_contracts` and `austender_unspsc` can be joined based on
+fields containing 8-digit UNSPSC codes, thought the names of these are
+different in each table.
 
 ## How and when is data updated
 

@@ -136,7 +136,7 @@ get_releases <- function(df) {
   if(length(df$json$releases) > 0) {
 
     # Extract releases from df$json
-    releases <<-
+    releases <-
       tibble(json = df$json$releases) |>
       unnest_wider(json)
 
@@ -147,11 +147,10 @@ get_releases <- function(df) {
       filter(str_detect(tag,"Amendment"))
 
     # remove amended contracts from releases to process for supplier and contractor details
-    originals <<-
+    originals <-
       releases |>
       filter(!ocid %in%  amendments$ocid)
-  # if(FALSE) {}
-    if(nrow(originals) > 0) {
+   if(nrow(originals) > 0) {
       # get supplier details
       suppliers = get_suppliers(originals)
 
@@ -220,7 +219,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2017-7-1", "2024-8-20")
+results <- get_tenders_json("2017-1-1", "2017-12-31")
 
 # Add suppliers from query to existing data
 austender_suppliers =
@@ -251,7 +250,7 @@ austender_contracts =
   bind_rows(
     austender_contracts,
     results$contracts
-  ) |>
+   ) |>
   # Ensure there are no duplicates
   unique()
 
