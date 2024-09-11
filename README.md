@@ -49,15 +49,17 @@ knitr::kable(
 
 | name                | value                                 |
 |:--------------------|:--------------------------------------|
-| ocid                | prod-50845751687a4298ae1ea7ad1c586091 |
-| supplier_id         | aba5716994b469bd276bb383b8ce902b      |
-| supplier_abn        | 82001166927                           |
-| supplier_name       | HUBER & SUHNER (AUSTRALIA) PTY LTD    |
+| ocid                | prod-9bec32efca0747999bf2a975940c9d6b |
+| supplier_id         | af7d1748ef37decd2a6440a4d35e2614      |
+| supplier_abn        | 55921612267                           |
+| supplier_name       | PLANEX SALES PTY LTD                  |
 | supplier_country    | AUSTRALIA                             |
 | supplier_street     |                                       |
-| supplier_locality   | FRENCHS FOREST                        |
-| supplier_region     | NSW                                   |
-| supplier_postalCode | 2086                                  |
+| supplier_locality   | HALLAM                                |
+| supplier_region     | VIC                                   |
+| supplier_postalCode | 3803                                  |
+| id                  | NA                                    |
+| originalid          | NA                                    |
 
 `austender_agencies` - containing information on the party
 receiving/paying for the services under the contract. A random example
@@ -73,10 +75,10 @@ knitr::kable(
 
 | name        | value                                 |
 |:------------|:--------------------------------------|
-| ocid        | prod-ef55edd795964fdba8968ecb34beb8b0 |
-| agency_id   | 0ec8f144aa1c235022aed6c59a7c9e24      |
-| agency_abn  | 17864931143                           |
-| agency_name | Australian Federal Police             |
+| ocid        | prod-c44519653a9f456194942903068e34dc |
+| agency_id   | 3e8a6e49ad6a089682fe57bba6072633      |
+| agency_abn  | 22323254583                           |
+| agency_name | Australian Signals Directorate        |
 
 `austender_contracts` - containing information about the contract. A
 random example is shown below. Note `austenders_contracts` includes
@@ -91,17 +93,23 @@ knitr::kable(
     pivot_longer(everything()))
 ```
 
-| name                  | value                                 |
-|:----------------------|:--------------------------------------|
-| ocid                  | prod-feabf048ce0a59a959af9de1fa7c23da |
-| contract_id           | CN3396792                             |
-| contract_unspsc_id    | 46171600                              |
-| contract_description  | Safety products and support services  |
-| contract_value_amount | 391126.08                             |
-| contract_date_signed  | 2017-01-03T13:00:00Z                  |
-| contract_date_start   | 2016-12-15T13:00:00Z                  |
-| contract_date_end     | 2017-05-30T14:00:00Z                  |
-| tag                   | contractAmendment                     |
+| name                                       | value                                                                                                              |
+|:-------------------------------------------|:-------------------------------------------------------------------------------------------------------------------|
+| ocid                                       | prod-5f4bdffd04379727ed1421aacb90ce1d                                                                              |
+| contract_id                                | CN3537837                                                                                                          |
+| contract_unspsc_id                         | 55101500                                                                                                           |
+| contract_description                       | Finalisation of Plant Biosecurity Surveillance Protocols for the citrus and mango industries in northern Australia |
+| contract_value_amount                      | 50000.00                                                                                                           |
+| contract_date_signed                       | 2018-09-04T05:49:18Z                                                                                               |
+| contract_date_start                        | 2018-08-28T14:00:00Z                                                                                               |
+| contract_date_end                          | 2019-06-06T14:00:00Z                                                                                               |
+| tag                                        | contract                                                                                                           |
+| contract_amendment_id                      | NA                                                                                                                 |
+| contract_amendment_originalamount          | NA                                                                                                                 |
+| contract_amendment_contractamendmentamount | NA                                                                                                                 |
+| contract_amendment_amendedamount           | NA                                                                                                                 |
+| contract_amendment_startdate               | NA                                                                                                                 |
+| contract_amendment_date                    | NA                                                                                                                 |
 
 `austender_unspsc` - containing information about the simplified United
 Nations Standard Products and Services Code (UNSPSC) used by Austender
@@ -115,18 +123,18 @@ knitr::kable(
 )
 ```
 
-| unspsc_id | unspsc_group                                                                       | unspsc_desc                                    |
-|:----------|:-----------------------------------------------------------------------------------|:-----------------------------------------------|
-| 73180000  | Industrial Production and Manufacturing Services                                   | Machining and processing services              |
-| 30140000  | Structures and Building and Construction and Manufacturing Components and Supplies | Insulation                                     |
-| 92110000  | National Defence and Public Order and Security and Safety Services                 | Military services and national defence         |
-| 42000000  | Laboratory and Measuring and Observing and Testing Equipment                       | Medical Equipment and Accessories and Supplies |
-| 72101900  | Building and Construction and Maintenance Services                                 | Interior finishing                             |
-| 93100000  | Politics and Civic Affairs Services                                                | Political systems and institutions             |
-| 41100000  | Laboratory and Measuring and Observing and Testing Equipment                       | Laboratory and scientific equipment            |
-| 49150000  | Sports and Recreational Equipment and Supplies and Accessories                     | Winter sports equipment                        |
-| 25131900  | Commercial and Military and Private Vehicles and their Accessories and Components  | Military rotary wing aircraft                  |
-| 46181700  | Defence and Law Enforcement and Security and Safety Equipment and Supplies         | Face and head protection                       |
+| unspsc_id | unspsc_group                                                       | unspsc_desc                                      |
+|:----------|:-------------------------------------------------------------------|:-------------------------------------------------|
+| 43221500  | Information Technology Broadcasting and Telecommunications         | Call management systems or accessories           |
+| 92120000  | National Defence and Public Order and Security and Safety Services | Security and personal safety                     |
+| 42120000  | Laboratory and Measuring and Observing and Testing Equipment       | Veterinary equipment and supplies                |
+| 80141500  | Management and Business Professionals and Administrative Services  | Market research                                  |
+| 78100000  | Transportation and Storage and Mail Services                       | Mail and cargo transport                         |
+| 83101900  | Public Utilities and Public Sector Related Services                | Energy conservation                              |
+| 80101707  | Management and Business Professionals and Administrative Services  | Lobbying services                                |
+| 44111515  | Office Equipment and Accessories and Supplies                      | File storage boxes or containers                 |
+| 42140000  | Laboratory and Measuring and Observing and Testing Equipment       | Patient care and treatment products and supplies |
+| 73150000  | Industrial Production and Manufacturing Services                   | Manufacturing support services                   |
 
 As can be seen in these examples, the three main tender tables contain a
 variable `ocid` that enables information from all three to be joined.

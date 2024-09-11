@@ -38,7 +38,7 @@ if(file.exists("data/austender_contracts.rda"))
 #'
 get_suppliers <- function(df) {
   # A function to extract supplier variables from Austender JSON releases extract
-  test.df <<- df
+  test <<- df
   df |>
     # Select ocid and parties from releases df
     select(ocid, parties) |>
@@ -62,9 +62,15 @@ get_suppliers <- function(df) {
     unnest_wider(
       contains("supplier_"),
       names_sep = "_"
-    ) |>
+    )
+  # On occasion list will only include foreign supplies, so no ABN
+  # Need if to handle
+  if("supplier_additionalIdentifiers_1" %in% names(df)) {
+    df |>
     # Which leaves one last column to widen (this contains ABNs)
-    unnest_wider(supplier_additionalIdentifiers_1, names_sep = ".") |>
+    unnest_wider(supplier_additionalIdentifiers_1, names_sep = ".") }
+
+  df |>
     # Now we have our data we can clean the names and select data we want.
     select(contains("id"), contains("name"), contains("address")) |>
     select(-contains("contact"),-contains("scheme")) |>
@@ -108,6 +114,13 @@ get_agencies = function(df) {
 
 get_contracts = function(df) {
   # A function to extract contract variables from Austender JSON releases extract
+  amendments <<- df |>
+    select(ocid, tag) |>
+    unnest_longer(tag) |>
+    filter(str_detect(tag,"Amendment"))
+
+  if(nrow(amendments)>0){
+
   df |>
     # Select ocid and contracts from releases df
     select(ocid, contracts, tag) |>
@@ -121,14 +134,53 @@ get_contracts = function(df) {
     unnest_longer(contracts_items) |>
     unnest_wider(contracts_items, names_sep = "_") |>
     unnest_wider(contracts_items_classification, names_sep = "_") |>
+    unnest_wider(contracts_amendments, names_sep = "_") |>
+    unnest_wider(contracts_amendments_1, names_sep = "_") |>
     # Now we have our data we can clean the names and select data we want.
-    select(ocid, contracts_id, contains("classification_id"), contains("description"), contains("amount"), contains("date"), tag) |>
+    select(ocid,
+           contracts_id,
+           contains("classification_id"),
+           contains("description"),
+           contains("amount"),
+           contains("date"),
+           contains("amendments_1_id"),
+           tag) |>
     rename_with(\(x) str_replace(x,"contracts","contract")) |>
+
     rename_with(\(x) str_replace(x,"_period","_date")) |>
     rename_with(\(x) str_replace(x,"classification","unspsc")) |>
     rename_with(\(x) str_replace(x,"S","_s")) |>
-    rename_with(\(x) str_remove(x,"Date|_items"))
+    rename_with(\(x) str_remove(x,"Date|_items|s_1"))
+  } else
+  {
+    df |>
+      # Select ocid and contracts from releases df
+      select(ocid, contracts, tag) |>
+      # unnest contracts variable wider
+      unnest_longer(contracts) |>
+      unnest_longer(tag) |>
+      # unnest the value variable wider again
+      unnest_wider(contracts, names_sep = "_") |>
+      unnest_wider(contracts_value, names_sep = "_") |>
+      unnest_wider(contracts_period, names_sep = "_") |>
+      unnest_longer(contracts_items) |>
+      unnest_wider(contracts_items, names_sep = "_") |>
+      unnest_wider(contracts_items_classification, names_sep = "_") |>
+      # Now we have our data we can clean the names and select data we want.
+      select(ocid,
+             contracts_id,
+             contains("classification_id"),
+             contains("description"),
+             contains("amount"),
+             contains("date"),
+             tag) |>
+      rename_with(\(x) str_replace(x,"contracts","contract")) |>
+      rename_with(\(x) str_replace(x,"_period","_date")) |>
+      rename_with(\(x) str_replace(x,"classification","unspsc")) |>
+      rename_with(\(x) str_replace(x,"S","_s")) |>
+      rename_with(\(x) str_remove(x,"Date|_items|s_1"))
 
+  }
 }
 
 get_releases <- function(df) {
@@ -150,6 +202,7 @@ get_releases <- function(df) {
     originals <-
       releases |>
       filter(!ocid %in%  amendments$ocid)
+
    if(nrow(originals) > 0) {
       # get supplier details
       suppliers = get_suppliers(originals)
