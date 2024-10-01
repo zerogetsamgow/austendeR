@@ -1,7 +1,7 @@
 Package: austendeR
 Type: Package
 Title: Provides easily useable data from the Austenders API
-Version: 0.3.0
+Version: 0.4.0
 Author: 
  person("Samuel", "Gow", , "samuel.gow@cubegroup.com.au", role = c("aut", "cre"))
 Description: 
