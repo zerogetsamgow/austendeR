@@ -72,7 +72,8 @@ austender_latest =
     agency_name,
     contains("contract"),
     contains("unspsc")) |>
-  select(-contains("amend"))
+  select(-contains("amend")) |>
+  collect()
 
 # Replace rda in data with updated set
 usethis::use_data(austender_latest, overwrite = TRUE)
