@@ -1,14 +1,8 @@
+#' code to create a dataset of each contract with most recent contract details
 
 library(tidyverse)
 library(duckdb)
 library(lubridate)
-
-## code to prepare `add_new_tenders_from_API` dataset goes here
-#' This code allows you to add
-#'
-
-library(tidyverse)
-library(jsonlite)
 
 #' Test to see if datasets exist and load if they do.
 #' Else create a NULL object to add to later

@@ -1,6 +1,4 @@
-## code to prepare `add_new_tenders_from_API` dataset goes here
-#' This code allows you to add
-#'
+#' code to prepare add new data from the API to the datasets goes here
 
 library(tidyverse)
 library(jsonlite)
