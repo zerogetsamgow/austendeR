@@ -277,7 +277,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2020-1-1", "2020-12-31")
+results <- get_tenders_json("2019-1-1", "2019-12-31")
 
 # Add suppliers from query to existing data
 austender_suppliers =
@@ -303,12 +303,16 @@ austender_agencies =
 # Replace rda in data with updated set
 usethis::use_data(austender_agencies, overwrite = TRUE)
 
-# Add agenciess from query to existing data
+# Add contracts from query to existing data
 austender_contracts =
   bind_rows(
     austender_contracts,
     results$contracts
    ) |>
+  mutate(
+    across(contains("date"),ymd_hms),
+    across(contains("value"),as.numeric)
+  ) |>
   # Ensure there are no duplicates
   unique()
 
