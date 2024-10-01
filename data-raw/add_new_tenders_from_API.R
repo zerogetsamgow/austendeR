@@ -31,7 +31,6 @@ if(file.exists("data/austender_contracts.rda"))
 
 
 #' Define functions for cleaning data from API
-#' `get_tenders_json`
 #' `get_suppliers`
 #'
 #'
@@ -78,6 +77,8 @@ get_suppliers <- function(df) {
     rename_with(\(x) str_remove_all(x,"additionalIdentifiers|(A|a)ddress(_)*|Name|_1"))
 }
 
+#' `get_agencies`
+#'
 get_agencies = function(df) {
   # A function to extract agency variables from Austender JSON releases extract
   df |>
@@ -183,6 +184,8 @@ get_contracts = function(df) {
   }
 }
 
+#' `get_releases`
+#'
 get_releases <- function(df) {
   # If we have release data
   if(length(df$json$releases) > 0) {
@@ -227,6 +230,8 @@ get_releases <- function(df) {
   }
 }
 
+#' `get_tender_json`
+#'
 get_tenders_json <- function(start_date, end_date) {
 
   suppliers <- agencies <- contracts <- df <- NULL
@@ -272,7 +277,7 @@ get_tenders_json <- function(start_date, end_date) {
 }
 
 # Run this line of code to add tenders for a specific date range
-results <- get_tenders_json("2017-1-1", "2017-12-31")
+results <- get_tenders_json("2024-1-1", "2024-9-1")
 
 # Add suppliers from query to existing data
 austender_suppliers =
